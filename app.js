@@ -236,11 +236,13 @@ app.post("/rn/api/create_qr", verifyToken, async (req, res) => {
 
 // RAZORPAY WEBHOOK URL
 app.post("/qr/webhook", (req, res) => {
+    console.log("qr webhook")
     console.log(req.body);
 });
 // RAZORPAY WEBHOOK URL
-app.get("/qr/webhook", (req, res) => {
+app.post("/payments/webhook", (req, res) => {
     console.log(req.params);
+    console.log("payment webhook")
 });
 
 
