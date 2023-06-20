@@ -207,8 +207,8 @@ app.post("/rn/api/create_qr", verifyToken, async (req, res) => {
                                             }
                                             console.log('File removed successfully');
                                         });
-                                        // res.status(200).json({ success: true, qrCode: result.url });
-                                        res.send(`<img src='${result.url}'/>`)
+                                        res.status(200).json({ success: true, qrCode: result.url });
+                                        // res.send(`<img src='${result.url}'/>`)
                                     }
                                 });
 
