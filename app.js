@@ -36,7 +36,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 const Razorpay = require("razorpay");
-const instance = new Razorpay({ key_id: "rzp_test_V4kUabohzBFrxK", key_secret :"waBehRuPzW9A0PJiG7myj72J" });
+const instance = new Razorpay({ key_id: "rzp_live_y4MHjh4zXe9laT", key_secret :"CjtJb5ePVbh9XPG643lUNfiq" });
 const instanceX = new Razorpay({ key_id: "rzp_test_pH5BGgJrP6JBbN", key_secret: "EIzo5PUj7Gs9UTEJsnpieDts" });
 
 app.use(cors())
@@ -238,6 +238,7 @@ app.post("/rn/api/create_qr", verifyToken, async (req, res) => {
 app.post("/qr/webhook", (req, res) => {
     console.log("qr webhook")
     console.log(req.body);
+    console.log("payload" + req.body.payload);
 });
 // RAZORPAY WEBHOOK URL
 app.post("/payments/webhook", (req, res) => {
