@@ -238,7 +238,8 @@ app.post("/rn/api/create_qr", verifyToken, async (req, res) => {
 app.post("/qr/webhook", (req, res) => {
     console.log("qr webhook")
     console.log(req.body);
-    console.log("payload" + req.body.payload);
+    console.log("payment" + req.body.payload.payment.entity);
+    console.log("qr details" + req.body.payload.qr_code.entity);
 });
 // RAZORPAY WEBHOOK URL
 app.post("/payments/webhook", (req, res) => {
