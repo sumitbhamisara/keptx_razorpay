@@ -144,11 +144,7 @@ app.post("/rn/api/create_qr", verifyToken, async (req, res) => {
         name: name,
         usage: "multiple_use",
         fixed_amount: false,
-        notes : [
-            {
-                walletId : "soemhitng"
-            }
-        ]
+        description : "wallet_2333id"
     }
     const pipeline = util.promisify(require('stream').pipeline);
 
