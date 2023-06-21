@@ -239,9 +239,10 @@ app.post("/qr/webhook", (req, res) => {
     console.log("qr webhook")
     console.log(req.body);
     console.log("payment" + req.body.payload.payment?.entity);
-    const bb = JSON.parse(req.body)
-    console.log({bb})
     console.log("qr details" + req.body.payload.qr_code?.entity);
+    const jsonResponse = JSON.stringify(req.body, null, 2);
+console.log({jsonResponse});
+    // res.json(req.body)
 });
 // RAZORPAY WEBHOOK URL
 app.post("/payments/webhook", (req, res) => {
