@@ -241,9 +241,9 @@ app.post("/qr/webhook", (req, res) => {
     console.log({jsonResponse});
     const payment = req.body.payload.payment?.entity
     const qrCode = req.body.payload.qr_code?.entity
-    const paymentId = payment.id
-    const paymentvpa = payment.vpa
-    const paymentAmount = payment.amount
+    const paymentId = payment?.id
+    const paymentvpa = payment?.vpa
+    const paymentAmount = payment?.amount
     const QrWalletId  = qrCode.description
     console.log({paymentId  , paymentvpa, paymentAmount , QrWalletId })
     // res.json(req.body)
