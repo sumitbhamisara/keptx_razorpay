@@ -238,6 +238,7 @@ app.post("/rn/api/create_qr", verifyToken, async (req, res) => {
 app.post("/qr/webhook", (req, res) => {
     console.log("qr webhook")
     const jsonResponse = JSON.stringify(req.body, null, 2);
+    console.log({jsonResponse});
     const payment = jsonResponse.payload.payment?.entity
     const qrCode = jsonResponse.payload.qr_code?.entity
     const paymentId = payment.id
@@ -245,7 +246,6 @@ app.post("/qr/webhook", (req, res) => {
     const paymentAmount = payment.amount
     const QrWalletId  = qrCode.description
     console.log({paymentId  , paymentvpa, paymentAmount , QrWalletId })
- console.log({jsonResponse});
     // res.json(req.body)
     res.sendStatus(200);
 
