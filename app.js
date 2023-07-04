@@ -78,18 +78,54 @@ const usersSchema = mongoose.Schema({
 
 
 
+const walletHistorySchema = mongoose.Schema({
+    transactionID: String,
+    paytmTrxId: String,
+    transactionStatus: String,
+    amount: Number,
+    date: String,
+    time: String,
+    username: String,
+    transferredFrom: String,
+    transferredTo: String,
+    spent: Boolean,
+    pending: Boolean,
+    payoutID: String,
+    collectedFromMerchant: String,
+    payoutToMerchant: String,
+    payoutFromMerchant: String,
+    transactionType: String,
+    transactionSource: String,
+    nameOfOwner: String,
+    mobileNoOfOwner: String,
+    emailOfOwner: String,
+    spentOnOrder: Boolean,
+
+}, { timestamps: true });
 
 
 
 
 
 
+
+
+const balanceSchema = mongoose.Schema({
+    username: String,
+    balance: Number,
+    testBalance: Number,
+    walletID: Number,
+    qrImage: String,
+    qrID: String,
+    unCapturedOrderIDs: Array
+});
 
 
 
 //      modals 
 const User = mongoose.model("user", usersSchema);
-
+const WalletHistory = mongoose.model("wallet history", walletHistorySchema);
+const Balance = mongoose.model("balance", balanceSchema);
 
 
 app.get("/" , (req ,res) =>{
@@ -235,7 +271,24 @@ app.post("/rn/api/create_qr", verifyToken, async (req, res) => {
 
 
 // RAZORPAY WEBHOOK URL
-app.post("/qr/webhook", (req, res) => {
+// app.post("/qr/webhook", (req, res) => {
+//     console.log("qr webhook")
+//     const jsonResponse = JSON.stringify(req.body, null, 2);
+//     console.log({jsonResponse});
+//     const payment = req.body.payload.payment?.entity
+//     const qrCode = req.body.payload.qr_code?.entity
+//     const paymentId = payment?.id
+//     const paymentvpa = payment?.vpa
+//     const paymentAmount = payment?.amount
+//     const QrWalletId  = qrCode.description
+//     console.log({paymentId  , paymentvpa, paymentAmount , QrWalletId })
+//     // res.json(req.body)
+//     res.sendStatus(200);
+
+// });
+
+// RAZORPAY WEBHOOK URL
+app.post("/qr/webhook", async(req, res) => {
     console.log("qr webhook")
     const jsonResponse = JSON.stringify(req.body, null, 2);
     console.log({jsonResponse});
@@ -244,7 +297,28 @@ app.post("/qr/webhook", (req, res) => {
     const paymentId = payment?.id
     const paymentvpa = payment?.vpa
     const paymentAmount = payment?.amount
+    const QrUsername  = qrCode.name
     const QrWalletId  = qrCode.description
+    if(paymentId && paymentAmount && QrWalletId){
+            Balance.updateOne({ walletID: QrWalletId }, { $inc: { balance: paymentAmount } }, function (err, res) {
+                if (err) {
+                    console.log({err})
+                    res.send(err);
+                }
+            });
+
+            const transactionID = Math.floor(Math.random() * 9000000000) + 1000000000;
+
+            var walletHistory = new WalletHistory({
+                transactionID: transactionID,
+                amount: amount,
+                date: new Date().toString(),
+                username: QrUsername,
+            });
+
+            console.log({walletHistory})
+            walletHistory.save();
+    }
     console.log({paymentId  , paymentvpa, paymentAmount , QrWalletId })
     // res.json(req.body)
     res.sendStatus(200);
