@@ -192,6 +192,8 @@ app.post("/rn/api/create_qr", verifyToken, async (req, res) => {
     };
 
 
+
+    
     instance.qrCode.create(options, async function (err, qr) {
         if (err) {
             console.log(err)
